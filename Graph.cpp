@@ -6,5 +6,7 @@
 
 template<typename V>
 void Graph<V>::playGround() {
-
+  Node<int> tempNode(5);
+  head = tempNode;
+  
 }
