@@ -13,13 +13,14 @@ template <typename V>
 class Graph {
     private:
         vector<Node<V>*> nodes;
-        vector<vector<int>> matrix;
+        vector<vector<unsigned int>> matrix;
         Node<V>* head;
         int findNode(Node<V>* node);
         void matrixShananigans(Node<V>* nextNode, vector<Node<V>*> adjacentNodes);
         void resize();
     public:
         void playGround();
+        void print();
 };
 
 
