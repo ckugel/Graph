@@ -9,7 +9,7 @@
 template<typename V>
 void Graph<V>::playGround() {
     Node<V> *tempNode = new Node<V>(5);
-    vector<Node<V>*> adj;
+    std::vector<Node<V>*> adj;
     head = tempNode;
     for (int creator = 0; creator < 5; creator++) {
         Node<V> *nextNode = new Node<V>(5);
@@ -20,32 +20,40 @@ void Graph<V>::playGround() {
 }
 
 template<typename V>
-int Graph<V>::findNode(Node<V>* node) {
-    for (int nodeFinder = 0; nodeFinder < nodes.size(); nodeFinder++) {
-        if (nodes[nodeFinder] == node) {
-            return nodeFinder;
+void Graph<V>::resize() {
+    matrix.resize(nodes.size());
+    for (std::vector<unsigned int>& looper : matrix) {
+        looper.resize(nodes.size());
+    }
+}
+
+template<typename V>
+bool Graph<V>::contains(Node<V>* node, std::vector<Node<V>*> listOfNodes) {
+    for (int looper = 0; looper < listOfNodes.size(); looper++) {
+        if (node == listOfNodes[looper]) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 template<typename V>
-void Graph<V>::resize() {
-    vector<unsigned int> random;
-    matrix.push_back(random);
-    for (int matLooper = 0; matLooper < matrix.size(); matLooper++) {
-        matrix[matLooper].push_back(0);
-    }
-}
-
-template<typename V>
-void Graph<V>::addNode(Node<V>* nextNode, vector<Node<V>*> adjacentNodes, double weight) {
+void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight) {
     resize();
+    if (contains(nextNode, nodes)) {return;}
     head = nextNode;
     nodes.push_back(nextNode);
+    nodeMap[nextNode] = nodes.size();
+    printOut();
     for (int looper = 0; looper < adjacentNodes.size(); looper++) {
-        int currNodeNum = findNode(nextNode);
-        int nextNodeNum = findNode(adjacentNodes[looper]);
+        if (!contains(adjacentNodes[looper], nodes)) {
+            nodes.push_back(adjacentNodes[looper]);
+            nodeMap[adjacentNodes[looper]] = nodes.size();
+            resize();
+        }
+        printOut();
+        int currNodeNum = nodeMap.at(nextNode);
+        int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
         matrix[currNodeNum][nextNodeNum] = weight;
         matrix[nextNodeNum][currNodeNum] = weight;
     }
@@ -54,21 +62,33 @@ void Graph<V>::addNode(Node<V>* nextNode, vector<Node<V>*> adjacentNodes, double
 template<typename V>
 void Graph<V>::printOut() {
     for (int i = 0; i < matrix.size(); i++) {
-    for (int ii = 0; ii < matrix[i].size(); ii++) {
-        std::cout << matrix[i][ii];
-    }
+        for (int ii = 0; ii < matrix[i].size(); ii++) {
+            std::cout << matrix[i][ii];
+        }
         std::cout << std::endl;
     }
+
+    std::cout << "\n\n\n\n\n" << std::endl;
 }
 
 template<typename V>
-void Graph<V>::addNode(Node<V> *nextNode, vector<Node<V> *> adjacentNodes) {
+void Graph<V>::addNode(Node<V> *nextNode, std::vector<Node<V>*> adjacentNodes) {
     addNode(nextNode, adjacentNodes, 1);
 }
 
 template<typename V>
 void Graph<V>::addNode(Node<V> *nextNode, Node<V> *nodeITSLATE) {
-    vector<Node<V>*> adj;
+    std::vector<Node<V>*> adj;
     adj.push_back(nodeITSLATE);
     addNode(nextNode, adj);
+}
+
+
+template<typename V>
+Graph<V>::Graph() {
+    std::vector<unsigned int> temp;
+    temp.push_back(0);
+    temp.push_back(0);
+    matrix.push_back(temp);
+    matrix.push_back(temp);
 }

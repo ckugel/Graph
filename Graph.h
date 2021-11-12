@@ -5,24 +5,30 @@
 #ifndef ANOTHERGRAPH_GRAPH_H
 #define ANOTHERGRAPH_GRAPH_H
 
-#include "vector"
 #include "Node.cpp"
-using namespace std;
+
+#include "vector"
+#include "map"
 
 template <typename V>
 class Graph {
     protected:
-        vector<Node<V>*> nodes;
-        vector<vector<unsigned int>> matrix;
+        std::vector<Node<V>*> nodes;
+        std::vector<std::vector<unsigned int>> matrix;
         Node<int>* head = nullptr;
-        int findNode(Node<V>* node);
+        std::map<Node<V>*, unsigned int> nodeMap;
+
         void addNode(Node<V>* nextNode, Node<V>* nodeITSLATE);
-        void addNode(Node<V>* nextNode, vector<Node<V>*> adjacentNodes);
-        void addNode(Node<V>* nextNode, vector<Node<V>*> adjacentNodes, double weight);
+        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes);
+        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight);
         void resize();
+
+        bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
     public:
         void playGround();
         void printOut();
+
+        Graph();
 };
 
 
