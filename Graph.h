@@ -25,9 +25,14 @@ class Graph {
         void resize();
 
         bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
+
+        void aStar();
+
     public:
         void playGround();
         void printOut();
+
+        void findShortestPath();
 
         Graph();
 };
