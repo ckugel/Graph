@@ -50,15 +50,10 @@ void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, u
             resize();
         }
         resize();
-        if (first) {
-          int currNodeNum = nodeMap.at(nextNode);
-          int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
-          matrix[currNodeNum][nextNodeNum] = weight;
-          matrix[nextNodeNum][currNodeNum] = weight;
-        }
-        else {
-          first = true;
-        }
+        int currNodeNum = nodeMap.at(nextNode);
+        int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
+        matrix[currNodeNum][nextNodeNum] = weight;
+        matrix[nextNodeNum][currNodeNum] = weight;
     }
 }
 
