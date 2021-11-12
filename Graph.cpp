@@ -39,18 +39,18 @@ bool Graph<V>::contains(Node<V>* node, std::vector<Node<V>*> listOfNodes) {
 
 template<typename V>
 void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight) {
-    resize();
     if (contains(nextNode, nodes)) {return;}
     head = nextNode;
     nodes.push_back(nextNode);
-    nodeMap[nextNode] = nodes.size();
+    nodeMap[nextNode] = nodes.size() - 1;
     printOut();
     for (int looper = 0; looper < adjacentNodes.size(); looper++) {
         if (!contains(adjacentNodes[looper], nodes)) {
             nodes.push_back(adjacentNodes[looper]);
-            nodeMap[adjacentNodes[looper]] = nodes.size();
+            nodeMap[adjacentNodes[looper]] = nodes.size() - 1;
             resize();
         }
+        resize();
         printOut();
         int currNodeNum = nodeMap.at(nextNode);
         int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
