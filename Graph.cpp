@@ -43,7 +43,6 @@ void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, u
     head = nextNode;
     nodes.push_back(nextNode);
     nodeMap[nextNode] = nodes.size() - 1;
-    printOut();
     for (int looper = 0; looper < adjacentNodes.size(); looper++) {
         if (!contains(adjacentNodes[looper], nodes)) {
             nodes.push_back(adjacentNodes[looper]);
@@ -51,11 +50,15 @@ void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, u
             resize();
         }
         resize();
-        printOut();
-        int currNodeNum = nodeMap.at(nextNode);
-        int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
-        matrix[currNodeNum][nextNodeNum] = weight;
-        matrix[nextNodeNum][currNodeNum] = weight;
+        if (bool) {
+          int currNodeNum = nodeMap.at(nextNode);
+          int nextNodeNum = nodeMap.at(adjacentNodes[looper]);
+          matrix[currNodeNum][nextNodeNum] = weight;
+          matrix[nextNodeNum][currNodeNum] = weight;
+        }
+        else {
+          bool = true;
+        }
     }
 }
 
@@ -67,8 +70,6 @@ void Graph<V>::printOut() {
         }
         std::cout << std::endl;
     }
-
-    std::cout << "\n\n\n\n\n" << std::endl;
 }
 
 template<typename V>

@@ -13,6 +13,7 @@
 template <typename V>
 class Graph {
     protected:
+        bool first = false;
         std::vector<Node<V>*> nodes;
         std::vector<std::vector<unsigned int>> matrix;
         Node<int>* head = nullptr;
