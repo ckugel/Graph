@@ -12,11 +12,28 @@ void Graph<V>::playGround() {
     std::vector<Node<V>*> adj;
     head = tempNode;
     for (int creator = 0; creator < 5; creator++) {
-        Node<V> *nextNode = new Node<V>(5);
+        Node<V> *nextNode = new Node<V>(creator);
         addNode(nextNode, tempNode);
+        printOut();
     }
     addNode(tempNode, adj);
-    printOut();
+
+    head = nodes[1];
+
+    std::vector<Node<V>*> list = getAdj();
+
+    std::cout << "Head: " << head->getData() << std::endl;
+
+    std::cout << "Adjacent nodes: ";
+    for (int looper = 0; looper < list.size(); looper++) {
+        std::cout << list[looper]->getData();
+        if (looper != list.size() - 1) {
+            std::cout << ", ";
+        }
+    }
+
+    std::cout << std::endl;
+
 }
 
 template<typename V>
@@ -59,12 +76,17 @@ void Graph<V>::addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, u
 
 template<typename V>
 void Graph<V>::printOut() {
+    for (int looper = 0; looper < nodes.size(); looper++) {
+        std::cout << nodes[looper]->getData();
+    }
+    std::cout << std::endl;
     for (int i = 0; i < matrix.size(); i++) {
         for (int ii = 0; ii < matrix[i].size(); ii++) {
             std::cout << matrix[i][ii];
         }
         std::cout << std::endl;
     }
+    std::cout << "\n\n\n" << std::endl;
 }
 
 template<typename V>
@@ -87,6 +109,19 @@ Graph<V>::Graph() {
     temp.push_back(0);
     matrix.push_back(temp);
     matrix.push_back(temp);
+}
+
+template<typename V>
+std::vector<Node<V>*> Graph<V>::getAdj() {
+    std::vector<Node<V> *> adjacent;
+    int index = nodeMap.at(head);
+
+    for (int looper = 0; looper < matrix.size(); looper++) {
+        if (matrix[index][looper] != 0) {
+            adjacent.push_back(nodes[looper]);
+        }
+    }
+    return adjacent;
 }
 
 

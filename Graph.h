@@ -34,6 +34,8 @@ class Graph {
 
         void findShortestPath();
 
+        std::vector<Node<V>*> getAdj();
+
         Graph();
 };
 

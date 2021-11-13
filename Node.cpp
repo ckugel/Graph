@@ -7,7 +7,7 @@
 
 template<typename V>
 Node<V>::Node(V data) {
-
+    this->data = data;
 }
 
 template<typename V>
