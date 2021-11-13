@@ -80,6 +80,12 @@ void Graph<V>::printOut() {
         std::cout << nodes[looper]->getData();
     }
     std::cout << std::endl;
+
+    for (int anotherLoop = 0; anotherLoop < nodes.size(); anotherLoop++) {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
+
     for (int i = 0; i < matrix.size(); i++) {
         for (int ii = 0; ii < matrix[i].size(); ii++) {
             std::cout << matrix[i][ii];
