@@ -6,6 +6,7 @@
 #define ANOTHERGRAPH_GRAPH_H
 
 #include "Node.cpp"
+#include <stack>
 
 #include "vector"
 #include "map"
@@ -13,6 +14,13 @@
 template <typename V>
 class Graph {
     protected:
+        struct CustomCompare
+        {
+            bool operator()(const std::pair<int, Node<V>*>& first, const std::pair<int, Node<V>*>& second)
+            {
+                return first.first < second.first;
+            }
+        };
         bool first = false;
         std::vector<Node<V>*> nodes;
         std::vector<std::vector<unsigned int>> matrix;
@@ -27,7 +35,7 @@ class Graph {
 
         bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
 
-        void search();
+        std::vector<Node<V>*> Dijkstra(Node<V>* find);
 
     public:
         void playGround();

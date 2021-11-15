@@ -5,7 +5,8 @@
 #include "Graph.h"
 
 #include <iostream>
-
+#include <queue>
+#include <stack>
 
 template<typename V>
 Graph<V>::Graph() {
@@ -140,9 +141,38 @@ void Graph<V>::setHead(int index) {
 }
 
 template<typename V>
-void Graph<V>::search() {
-    std::vector<Node<V>*> beenThrough;
+std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
+    std::vector<Node<V>*> path;
+    if (head == find) {
+        return;
+    }
+    path.resize(nodes.size());
+    bool visited[nodes.size()];
+    unsigned int distances[nodes.size()];
 
+    std::priority_queue<std::pair<int, Node<V>*>, std::vector<std::pair<int, Node<V>*>>, CustomCompare> queue;
+
+    for(int filler = 0; filler < nodes.size(); filler++) {
+        visited[filler] = 0;
+        distances[filler] = INTMAX_MAX;
+
+        if (nodes[filler] != find) {
+            queue.push(nodes[filler]);
+        }
+    }
+    while (!queue.empty()) {
+        Node<V> *curr = queue.pop();
+        for (int looper = 0; looper < nodes.size(); looper++) {
+            int tempDistance;
+            if (visited[looper] == 0) {
+                tempDistance = distances[nodeMap.at(curr)] + matrix[nodeMap.at(curr)][looper];
+                if (tempDistance < distances[looper]) {
+                    distances[looper] = tempDistance[nodeMap.at(curr)];
+                    path[looper] = curr;
+                }
+            }
+        }
+    }
 }
 
 template<typename V>
