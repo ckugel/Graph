@@ -20,14 +20,22 @@ Graph<V>::Graph() {
 
 template<typename V>
 void Graph<V>::playGround() {
-    Node<V> *tempNode = new Node<V>(5);
+    Node<V> *tempNode = new Node<V>(0);
     addNode(tempNode);
-    for (int creator = 0; creator < 5; creator++) {
+    for (int creator = 1; creator <= 5; creator++) {
         addNode(new Node<V>(creator), tempNode);
-        printOut();
     }
 
     head = nodes[1];
+
+    for (int i = 1; i < nodes.size() - 1; i++) {
+        if (nodes[i] != nodes[i + 1]) {
+            addConnection(nodes[i], nodes[i + 1]);
+        }
+    }
+
+
+    printOut();
 
     std::vector<Node<V>*> list = getAdj();
 
@@ -144,7 +152,7 @@ template<typename V>
 std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
     std::vector<Node<V>*> path;
     if (head == find) {
-        return;
+        return path;
     }
     path.resize(nodes.size());
     bool visited[nodes.size()];
@@ -162,7 +170,7 @@ std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
     }
     while (!queue.empty()) {
         Node<V> *curr = queue.pop();
-        for (int looper = 0; looper < nodes.size(); looper++) {
+        for (int looper = 0; looper < getAdj().size(); looper++) {
             int tempDistance;
             if (visited[looper] == 0) {
                 tempDistance = distances[nodeMap.at(curr)] + matrix[nodeMap.at(curr)][looper];
