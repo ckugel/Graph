@@ -130,4 +130,14 @@ std::vector<Node<V>*> Graph<V>::getAdj() {
     return adjacent;
 }
 
+template<typename V>
+void Graph<V>::setHead(int index) {
+    head = getAdj()[index];
+}
+
+template<typename V>
+void Graph<V>::search() {
+    std::vector<Node<V>*> beenThrough;
+
+}
 

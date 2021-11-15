@@ -26,13 +26,15 @@ class Graph {
 
         bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
 
-        void aStar();
+        void search();
 
     public:
         void playGround();
         void printOut();
 
         void findShortestPath();
+
+        void setHead(int index);
 
         std::vector<Node<V>*> getAdj();
 
