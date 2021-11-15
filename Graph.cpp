@@ -141,3 +141,18 @@ void Graph<V>::search() {
 
 }
 
+template<typename V>
+void Graph<V>::addConnection(Node<V> *one, Node<V> *two, unsigned int weight) {
+    int oneIndex = nodeMap.at(one);
+    int twoIndex = nodeMap.at(two);
+
+    matrix[oneIndex][twoIndex] = weight;
+    matrix[twoIndex][oneIndex] = weight;
+
+}
+
+template<typename V>
+void Graph<V>::addConnection(Node<V> *one, Node<V> *two) {
+    addConnection(one, two, 1);
+}
+

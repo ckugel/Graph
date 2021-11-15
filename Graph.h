@@ -32,9 +32,9 @@ class Graph {
         void playGround();
         void printOut();
 
-        void findShortestPath();
-
         void setHead(int index);
+        void addConnection(Node<V>* one, Node<V>* two, unsigned int weight);
+        void addConnection(Node<V>* one, Node<V>* two);
 
         std::vector<Node<V>*> getAdj();
 
