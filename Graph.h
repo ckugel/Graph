@@ -19,6 +19,7 @@ class Graph {
         Node<int>* head = nullptr;
         std::map<Node<V>*, unsigned int> nodeMap;
 
+        void addNode(Node<V>* newNode);
         void addNode(Node<V>* nextNode, Node<V>* nodeITSLATE);
         void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes);
         void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight);
