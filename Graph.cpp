@@ -25,8 +25,15 @@ void Graph<V>::playGround() {
     Node<V> *tempNode = new Node<V>(0);
     addNode(tempNode);
     srand(time(0));
-    for (int creator = 1; creator <= 5; creator++) {
-        addNode(new Node<V>(creator), tempNode, (unsigned int) (rand() % 9 + 1));
+    for (int anotherLoop = 0; anotherLoop < 10; anotherLoop++) {
+        for (int creator = 1; creator <= 5; creator++) {
+            if (anotherLoop == 0) {
+                addNode(new Node<V>(creator + (anotherLoop * 10)), tempNode, (unsigned int) (rand() % 9 + 1));
+            }
+            else {
+                addNode(new Node<V>(creator + (anotherLoop * 10)), nodes[nodes.size() - 1], (unsigned int) (rand() % 9 + 1));
+            }
+        }
     }
 
     head = nodes[0];
