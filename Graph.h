@@ -21,16 +21,12 @@ class Graph {
                 return first.first < second.first;
             }
         };
-        bool first = false;
         std::vector<Node<V>*> nodes;
         std::vector<std::vector<unsigned int>> matrix;
         Node<int>* head = nullptr;
         std::map<Node<V>*, unsigned int> nodeMap;
 
-        void addNode(Node<V>* newNode);
-        void addNode(Node<V>* nextNode, Node<V>* nodeITSLATE);
-        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes);
-        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight);
+
         void resize();
 
         bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
@@ -38,6 +34,13 @@ class Graph {
         std::vector<Node<V>*> Dijkstra(Node<V>* find);
 
     public:
+
+        void addNode(Node<V>* newNode);
+        void addNode(Node<V>* nextNode, Node<V>* nodeITSLATE);
+        void addNode(Node<V>* nextNode, Node<V>* nodeITSLATE, unsigned int weight);
+        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes);
+        void addNode(Node<V>* nextNode, std::vector<Node<V>*> adjacentNodes, unsigned int weight);
+
         void playGround();
         void printOut();
 

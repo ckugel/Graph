@@ -7,6 +7,8 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <cstdlib>
+#include <ctime>
 
 template<typename V>
 Graph<V>::Graph() {
@@ -22,11 +24,12 @@ template<typename V>
 void Graph<V>::playGround() {
     Node<V> *tempNode = new Node<V>(0);
     addNode(tempNode);
+    srand(time(0));
     for (int creator = 1; creator <= 5; creator++) {
-        addNode(new Node<V>(creator), tempNode);
+        addNode(new Node<V>(creator), tempNode, (unsigned int) (rand() % 9 + 1));
     }
 
-    head = nodes[1];
+    head = nodes[0];
 
     for (int i = 1; i < nodes.size() - 1; i++) {
         if (nodes[i] != nodes[i + 1]) {
@@ -196,5 +199,12 @@ void Graph<V>::addConnection(Node<V> *one, Node<V> *two, unsigned int weight) {
 template<typename V>
 void Graph<V>::addConnection(Node<V> *one, Node<V> *two) {
     addConnection(one, two, 1);
+}
+
+template<typename V>
+void Graph<V>::addNode(Node<V> *nextNode, Node<V> *nodeITSLATE, unsigned int weight) {
+    std::vector<Node<V>*> adj;
+    adj.push_back(nodeITSLATE);
+    addNode(nextNode, adj, weight);
 }
 
