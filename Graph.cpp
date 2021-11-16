@@ -9,6 +9,7 @@
 #include <stack>
 #include <cstdlib>
 #include <ctime>
+#include "limits.h"
 
 template<typename V>
 Graph<V>::Graph() {
@@ -53,6 +54,25 @@ void Graph<V>::playGround() {
     }
 
     std::cout << std::endl;
+
+    std::vector<Node<V>*> path = Dijkstra(nodes[nodes.size() - 1]);
+
+    std::cout << "\n\n\n Path: ";
+    for (int looper = 0; looper < path.size(); looper++) {
+        if (looper != path.size() - 1) {
+            std::cout << nodeMap.at(path[looper]) << "->";
+        }
+        else {
+            std::cout << path[looper];
+        }
+    }
+    std::cout << std::endl;
+
+/*    std::cout << "\n\n\n Vals: " << std::endl;
+    for (int i = 0; i < nodes.size(); i++) {
+        std::cout << i << " -> " << nodes[i] << std::endl;
+    }*/
+
 
 }
 
@@ -161,26 +181,24 @@ std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
     bool visited[nodes.size()];
     unsigned int distances[nodes.size()];
 
-    std::priority_queue<std::pair<int, Node<V>*>, std::vector<std::pair<int, Node<V>*>>, CustomCompare> queue;
-
     for(int filler = 0; filler < nodes.size(); filler++) {
         visited[filler] = 0;
-        distances[filler] = INTMAX_MAX;
-
-        if (nodes[filler] != find) {
-            queue.push(nodes[filler]);
-        }
+        distances[filler] = UINT_MAX;
     }
+
+    std::priority_queue<pair, std::vector<pair>, CustomCompare> queue;
+    queue.push(std::pair(0, head));
+
     while (!queue.empty()) {
-        Node<V> *curr = queue.pop();
+        Node<V> *curr = queue.top().second;
+        unsigned int currentDistance = queue.top().first;
+        queue.pop();
         for (int looper = 0; looper < getAdj().size(); looper++) {
-            int tempDistance;
-            if (visited[looper] == 0) {
-                tempDistance = distances[nodeMap.at(curr)] + matrix[nodeMap.at(curr)][looper];
-                if (tempDistance < distances[looper]) {
-                    distances[looper] = tempDistance[nodeMap.at(curr)];
-                    path[looper] = curr;
-                }
+            // compares distance from current to adjacent
+            if (matrix[nodeMap.at(getAdj()[looper])][nodeMap.at(curr)] + currentDistance < distances[nodeMap.at(getAdj()[looper])]) {
+                distances[nodeMap.at(getAdj()[looper])] = currentDistance + matrix[nodeMap.at(getAdj()[looper])][nodeMap.at(curr)];
+                queue.push(std::pair(distances[nodeMap.at(getAdj()[looper])], getAdj()[looper]));
+                path.push_back(getAdj()[looper]);
             }
         }
     }

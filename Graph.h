@@ -11,13 +11,13 @@
 #include "vector"
 #include "map"
 
+
 template <typename V>
 class Graph {
     protected:
-        struct CustomCompare
-        {
-            bool operator()(const std::pair<int, Node<V>*>& first, const std::pair<int, Node<V>*>& second)
-            {
+        typedef std::pair<unsigned int, Node<V>*> pair;
+        struct CustomCompare {
+            bool operator()(const pair& first, const pair& second) {
                 return first.first < second.first;
             }
         };
