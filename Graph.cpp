@@ -173,12 +173,12 @@ void Graph<V>::setHead(int index) {
 
 template<typename V>
 std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
-    std::vector<Node<V>*> path;
+    std::vector<Node<V>*> thing;
     if (head == find) {
-        return path;
+        return thing;
     }
-    path.resize(nodes.size());
-    bool visited[nodes.size()];
+    std::vector<bool> visited;
+    visited.resize(nodes.size());
     unsigned int distances[nodes.size()];
 
     for(int filler = 0; filler < nodes.size(); filler++) {
@@ -188,26 +188,37 @@ std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
     distances[0] = 0;
 
     std::priority_queue<pair, std::vector<pair>, CustomCompare> queue;
-    queue.push(std::pair(0, head));
+    std::vector<Node<V>*> temp;
+    temp.push_back(head);
+    queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(0, temp));
 
     while (!queue.empty()) {
-        Node<V> *curr = queue.top().second;
+        std::vector<Node<V>*> path = queue.top().second;        
+        Node<V> *curr = path[path.size() - 1];
         unsigned int currentDistance = queue.top().first;
         queue.pop();
 
         visited[nodeMap.at(curr)] = 1;
 
         if (find == curr) {
+            std::cout << "\n\nDistance: " << currentDistance << std::endl;
             return path;
         }
 
         for (int looper = 0; looper < getAdj().size(); looper++) {
             if (!visited[nodeMap.at(getAdj()[looper])] && currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(getAdj()[looper])] < distances[nodeMap.at(getAdj()[looper])]) {
                 distances[nodeMap.at(getAdj()[looper])] = currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(getAdj()[looper])];
-                queue.push(std::pair(currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(getAdj()[looper])], getAdj()[looper]));
+                if (numVisited(visited) >= path.size()) {
+                    path.push_back(getAdj()[looper]);
+                }
+                else {
+                    path[numVisited(visited)] = getAdj()[looper];
+                }
+                queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(getAdj()[looper])], path));
             }
         }
     }
+    return thing;
 }
 
 template<typename V>
@@ -230,5 +241,16 @@ void Graph<V>::addNode(Node<V> *nextNode, Node<V> *nodeITSLATE, unsigned int wei
     std::vector<Node<V>*> adj;
     adj.push_back(nodeITSLATE);
     addNode(nextNode, adj, weight);
+}
+
+template<typename V>
+int Graph<V>::numVisited(std::vector<bool> listOfBools) {
+    int counter = 0;
+    for (int i = 0; i < listOfBools.size(); i++) {
+        if (listOfBools[i]) {
+            counter++;
+        }
+    }
+    return counter;
 }
 

@@ -15,7 +15,7 @@
 template <typename V>
 class Graph {
     protected:
-        typedef std::pair<unsigned int, Node<V>*> pair;
+        typedef std::pair<unsigned int, std::vector<Node<V>*>> pair;
         struct CustomCompare {
             bool operator()(const pair& first, const pair& second) {
                 return first.first < second.first;
@@ -28,6 +28,8 @@ class Graph {
 
 
         void resize();
+        
+        int numVisited(std::vector<bool> listOfBools);
 
         bool contains(Node<V>* node, std::vector<Node<V>*> listOfNodes);
 
