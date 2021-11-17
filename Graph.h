@@ -18,7 +18,7 @@ class Graph {
         typedef std::pair<unsigned int, std::vector<Node<V>*>> pair;
         struct CustomCompare {
             bool operator()(const pair& first, const pair& second) {
-                return first.first < second.first;
+                return first.first > second.first;
             }
         };
         std::vector<Node<V>*> nodes;
