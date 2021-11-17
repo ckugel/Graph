@@ -35,6 +35,8 @@ class Graph {
 
         std::vector<Node<V>*> Dijkstra(Node<V>* find);
 
+        void printAdjacent(Node<V>* next);
+
     public:
 
         void addNode(Node<V>* newNode);
@@ -50,7 +52,7 @@ class Graph {
         void addConnection(Node<V>* one, Node<V>* two, unsigned int weight);
         void addConnection(Node<V>* one, Node<V>* two);
 
-        std::vector<Node<V>*> getAdj();
+        std::vector<Node<V>*> getAdj(Node<V>* next);
 
         Graph();
 };
