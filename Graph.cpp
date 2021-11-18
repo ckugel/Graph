@@ -22,14 +22,24 @@ Graph<V>::Graph() {
 
 template<typename V>
 void Graph<V>::playGround() {
-    Node<V> *tempNode = new Node<V>(1);
+    Node<V> *tempNode = new Node<V>(0);
     addNode(tempNode);
     // srand(time(0));
 
-    addNode(new Node<V>(2), tempNode, 2);
-    addNode(new Node<V>(3), nodes[1], 1);
-    addConnection(nodes[2], tempNode, 4);
-    addNode(new Node<V>(4), nodes[2], 3);
+    addNode(new Node<V>(1), nodes[0], 2);
+    addNode(new Node<V>(2), nodes[1], 1);
+    addNode(new Node<V>(3), nodes[2], 3);
+    addNode(new Node<V>(4), nodes[0], 2);
+    addConnection(nodes[4], nodes[2], 3);
+    addNode(new Node<V>(5), nodes[1], 2);
+    addNode(new Node<V>(6), nodes[1], 1);
+    addConnection(nodes[5], nodes[3], 7);
+    addNode(new Node<V>(7), nodes[2], 5);
+    addNode(new Node<V>(8), nodes[6], 5);
+    addConnection(nodes[8], nodes[3], 3);
+    addNode(new Node<V>(9), nodes[8], 1);
+    addConnection(nodes[9], nodes[7], 8);
+
 
     head = nodes[0];
 
@@ -40,9 +50,9 @@ void Graph<V>::playGround() {
 
     std::cout << std::endl;
 
-    std::vector<Node<V>*> path = Dijkstra(nodes[nodes.size() - 1]);
+    std::vector<Node<V>*> path = Dijkstra(nodes[7]);
 
-    std::cout << "goal: " << nodes.size() - 1 << std::endl;
+    std::cout << "goal: " << nodes[7]->getData() << std::endl;
 
     std::cout << "\n\n\n Path: ";
     if (!path.empty()) {
@@ -122,7 +132,12 @@ void Graph<V>::addNode(Node<V> *nextNode, Node<V> *nodeITSLATE) {
 template<typename V>
 void Graph<V>::printOut() {
     for (int looper = 0; looper < nodes.size(); looper++) {
-        std::cout << nodes[looper]->getData();
+        if (looper != nodes.size() - 1) {
+            std::cout << nodes[looper]->getData() << ", ";
+        }
+        else {
+            std::cout << nodes[looper]->getData();
+        }
     }
     std::cout << std::endl;
 
@@ -133,7 +148,12 @@ void Graph<V>::printOut() {
 
     for (int i = 0; i < matrix.size(); i++) {
         for (int ii = 0; ii < matrix[i].size(); ii++) {
-            std::cout << matrix[i][ii];
+            if (ii != matrix.size() - 1) {
+                std::cout << matrix[i][ii] << ", ";
+            }
+            else {
+                std::cout << matrix[i][ii];
+            }
         }
         std::cout << std::endl;
     }
@@ -195,16 +215,15 @@ std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
         std::vector<Node<V>*> adj = getAdj(curr);
 
         for (int looper = 0; looper < adj.size(); looper++) {
+            std::vector<Node<V>*> possiblePath;
+            for (int i = 0; i < path.size(); i++) {
+                possiblePath.push_back(path[i]);
+            }
             printAdjacent(curr);
             if (!visited[nodeMap.at(adj[looper])] && currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(adj[looper])] < distances[nodeMap.at(adj[looper])]) {
                 distances[nodeMap.at(adj[looper])] = currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(adj[looper])];
-                if (numVisited(visited) >= path.size() - 1) {
-                    path.push_back(adj[looper]);
-                }
-                else {
-                    path[numVisited(visited)] = adj[looper];
-                }
-                queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(adj[looper])], path));
+                possiblePath.push_back(adj[looper]);
+                queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(currentDistance + matrix[nodeMap.at(curr)][nodeMap.at(adj[looper])], possiblePath));
             }
         }
         thing = path;
@@ -248,11 +267,11 @@ int Graph<V>::numVisited(std::vector<bool> listOfBools) {
 template<typename V>
 void Graph<V>::printAdjacent(Node<V>* next) {
     std::vector<Node<V>*> list = getAdj(next);
-    std::cout << "Head: " << head->getData() << std::endl;
+    std::cout << "current: " << next->getData() << std::endl;
 
     std::cout << "Adjacent nodes: ";
     for (int looper = 0; looper < list.size(); looper++) {
-        std::cout << list[looper]->getData();
+        std::cout << nodeMap.at(list[looper]);
         if (looper != list.size() - 1) {
             std::cout << ", ";
         }
