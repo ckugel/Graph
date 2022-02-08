@@ -55,6 +55,9 @@ class Graph {
         std::vector<Node<V>*> getAdj(Node<V>* next);
 
         Graph();
+
+        std::vector<Node<V>*> FrugalKugel(Node<V>* find, unsigned int steps);
+
 };
 
 

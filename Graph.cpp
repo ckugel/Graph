@@ -278,3 +278,14 @@ void Graph<V>::printAdjacent(Node<V>* next) {
     }
     std::cout << std::endl;
 }
+
+template<typename V> 
+std::vector<Node<V>*> Graph<V>::FrugalKugel(Node<V>* find, unsiged int steps) {
+    std::vector<Node<V>*> toReturn;
+    if (head == find) {
+        return toReturn;
+    }
+    std::vector<bool> visited;
+    visited.resize(nodes.size());
+    
+}
