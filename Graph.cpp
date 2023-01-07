@@ -228,6 +228,8 @@ std::vector<Node<V>*> Graph<V>::Dijkstra(Node<V>* find) {
         }
         thing = path;
     }
+    delete queue;
+    delete[] distances;
     return thing;
 }
 
@@ -280,12 +282,71 @@ void Graph<V>::printAdjacent(Node<V>* next) {
 }
 
 template<typename V> 
-std::vector<Node<V>*> Graph<V>::FrugalKugel(Node<V>* find, unsiged int steps) {
+std::vector<Node<V>*> Graph<V>::FrugalKugel(Node<V>* find, unsigned int steps) {
     std::vector<Node<V>*> toReturn;
     if (head == find) {
         return toReturn;
     }
     std::vector<bool> visited;
     visited.resize(nodes.size());
-    
+    unsigned int distances[nodes.size()];
+
+    // set distances except for the first one to infinity
+    for (int filler = 1; filler < nodes.size(); filler++) {
+        distances[filler] = UINT_MAX;
+    }
+    distances[0] = 0;
+
+    // setup a prioirty queue
+    std::priority_queue<pair, std::vector<pair>, CustomCompare> queue;
+    std::vector<Node<V>*> temp;
+    temp.push_back(head);
+    queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(0, temp));
+
+    while (!queue.empty()) {
+        // get the path from the top of the queue
+        std::vector<Node<V>*> path = queue.top().second;
+        // get the most recent item added to the path
+        Node<V>* curr = path[path.size() - 1];
+        unsigned int currentDistance = queue.top().first;
+        // remove the current path from the PQ
+        queue.pop();
+
+        visited[nodeMap.at(curr)] = 1;
+
+        // found the goal node
+        if (find == curr) {
+            std::cout << "\nDistance: " << currentDistance << std::endl;
+            return path;
+        }
+
+        std::vector<Node<V>*>& adj = nodes[nodeMap.at(curr)];
+
+        for (int looper = 0; looper <  adj.size(); looper++) {
+            if (adj[looper] != 0) {
+                std::vector<Node<V>*> possiblePath;
+                // copy over every element from path
+                for (int i = 0; i < path.size(); i++) {
+                    possiblePath.push_back(path[i]);
+                }
+                // print the adjacent nodes
+                printAdjacent(curr);
+                // cache the index
+                int index = nodeMap.at(adj[looper]);
+                // the weight between the current node and the node we ate checking
+                double tempDistance  = ((path.size() < 2) ? INT_MAX : matrix[nodeMap.at(curr)][index]);
+                double sumDistance = tempDistance + currentDistance;
+                // checks if we have visited the node we are inspecting, the distance is less than the cirrent distance, and
+                if (!visited[index] && sumDistance < distances[index]) {
+                    distances[index] = sumDistance;
+                    possiblePath.push_back(adj[looper]);
+                    queue.push(std::pair<unsigned int, std::vector<Node<V>*>>(sumDistance, possiblePath));
+                }
+            }
+        }
+        toReturn = path;
+    }
+    delete queue;
+    delete[] distances;
+    return toReturn;
 }
